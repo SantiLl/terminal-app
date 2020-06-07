@@ -13,11 +13,10 @@ class FoldersController
   end
 
   def destroy_folder(folder)
-    searched_folder = @folders_repository.get(folder)
-    if @folders_repository.delete(searched_folder)
+    searched_folder = check_folder(folder)
+    if searched_folder
+      @folders_repository.delete(searched_folder)
       @folder_view.delete_folder(folder)
-    else
-      @folder_view.not_found(folder)
     end
   end
 
@@ -26,12 +25,10 @@ class FoldersController
   end
 
   def open_folder(folder)
-    searched_folder = @folders_repository.get(folder)
+    searched_folder = check_folder(folder)
     if searched_folder
-      searched_folder.open = true
       @folder_view.open_folder(folder)
-    else
-      @folder_view.not_found(folder)
+      return searched_folder.open = true
     end
   end
 
@@ -44,5 +41,14 @@ class FoldersController
     searched_folder = @folders_repository.get(folder)
     searched_folder.open = false
     @folder_view.close_folder(folder)
+  end
+
+  def check_folder(folder)
+    searched_folder = @folders_repository.get(folder)
+    if searched_folder
+      return searched_folder
+    else
+      @folder_view.not_found(folder)
+    end
   end
 end
