@@ -24,4 +24,25 @@ class FoldersController
   def display_folder_helper
     @folder_view.folder_helper
   end
+
+  def open_folder(folder)
+    searched_folder = @folders_repository.get(folder)
+    if searched_folder
+      searched_folder.open = true
+      @folder_view.open_folder(folder)
+    else
+      @folder_view.not_found(folder)
+    end
+  end
+
+  def running?(folder)
+    searched_folder = @folders_repository.get(folder)
+    return searched_folder.open
+  end
+
+  def close_folder(folder)
+    searched_folder = @folders_repository.get(folder)
+    searched_folder.open = false
+    @folder_view.close_folder(folder)
+  end
 end

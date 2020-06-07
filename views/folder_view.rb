@@ -14,4 +14,12 @@ class FolderView
   def not_found(folder)
     puts "#{folder}: No such directory."
   end
+
+  def open_folder(folder)
+    puts "You've entered in '#{folder}'. Use 'cd -h' for navigation commands."
+  end
+
+  def close_folder(folder)
+    puts "You've closed '#{folder}', back to main folder."
+  end
 end

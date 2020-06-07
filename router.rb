@@ -58,6 +58,8 @@ class Router
       @folders_controller.destroy_folder(folder_command[1])
     elsif folder_command[0].include?('folder') && folder_command.size == 2
       @folders_controller.display_folder_helper
+    elsif folder_command[0].include?('cd') && folder_command.size == 2
+      redirect_folder(folder_command[1])
     else
       puts "Invalid operation '#{answer}', use folder -h to check all the file commands"
     end
@@ -74,5 +76,30 @@ class Router
       content << element if index > 1
     end
     return content.join(' ')
+  end
+
+  def redirect_folder(folder)
+    if folder.include?('..')
+      puts 'You are already in main folder!'
+    else
+      @folders_controller.open_folder(folder)
+      run_in_folder(folder)
+    end
+  end
+
+  def run_in_folder(folder)
+    while @folders_controller.running?(folder)
+      print '> '
+      user_answer = gets.chomp
+      if user_answer == 'ls'
+        # displayear todos los archivos que pertenecen a esa carpeta
+      elsif user_answer == 'cd ..'
+        @folders_controller.close_folder(folder)
+      elsif user_answer == 'whereami'
+        # mostrar ruta
+      else
+        puts "Invalid operation '#{answer}', use folder -h to check all the file commands"
+      end
+    end
   end
 end

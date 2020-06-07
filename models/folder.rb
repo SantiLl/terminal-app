@@ -1,6 +1,5 @@
 class Folder
-  attr_accessor :name
-  attr_writer :open
+  attr_accessor :name, :open
   def initialize(attributes = {})
     @name = attributes[:name]
     @open = false
