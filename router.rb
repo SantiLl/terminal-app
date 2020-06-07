@@ -1,6 +1,7 @@
 class Router
-  def initialize(files_controller)
+  def initialize(files_controller, folders_controller)
     @files_controller = files_controller
+    @folders_controller = folders_controller
     @running = true
   end
 
@@ -22,7 +23,8 @@ class Router
   def actions(answer)
     if answer.include?('file')
       file_actions(answer)
-    # elsif answer.include?('folder')
+    elsif answer.include?('folder') || answer.include?('cd') || answer.include?('ls')
+      folder_actions(answer)
     elsif answer.include?('help')
       command_helper
     else
@@ -45,6 +47,19 @@ class Router
       @files_controller.display_file_helper
     else
       puts "Invalid operation '#{answer}', use file -h to check all the file commands"
+    end
+  end
+
+  def folder_actions(answer)
+    folder_command = answer.split(' ')
+    if folder_command[0].include?('create_folder') && folder_command.size == 2
+      @folders_controller.create_folder(folder_command[1])
+    elsif folder_command[0].include?('destroy_folder') && folder_command.size == 2
+      @folders_controller.destroy_folder(folder_command[1])
+    elsif folder_command[0].include?('folder') && folder_command.size == 2
+      @folders_controller.display_folder_helper
+    else
+      puts "Invalid operation '#{answer}', use folder -h to check all the file commands"
     end
   end
 
