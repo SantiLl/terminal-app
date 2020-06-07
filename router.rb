@@ -34,6 +34,8 @@ class Router
     file_command = answer.split(' ')
     if file_command[0].include?('show_file') && file_command.size == 2
       @files_controller.show_file(file_command[1])
+    elsif file_command[0].include?('metadata_file') && file_command.size == 2
+      @files_controller.metadata_file(file_command[1])
     elsif file_command[0].include?('create_file') && file_command.size >= 3
       joined_content = join_content(file_command) if file_command.size > 2
       @files_controller.create_file(file_command[1], joined_content)

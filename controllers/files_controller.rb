@@ -21,6 +21,15 @@ class FilesController
     end
   end
 
+  def metadata_file(file)
+    searched_file = @files_repository.get(file)
+    if searched_file
+      @file_view.metadata_file(searched_file)
+    else
+      @file_view.not_found(file)
+    end
+  end
+
   def destroy_file(file)
     searched_file = @files_repository.get(file)
     if @files_repository.delete(searched_file)

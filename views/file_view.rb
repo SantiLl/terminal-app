@@ -18,4 +18,8 @@ class FileView
   def not_found(file)
     puts "#{file}: No such file."
   end
+
+  def metadata_file(file)
+    puts file
+  end
 end
