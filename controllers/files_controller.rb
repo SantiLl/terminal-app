@@ -33,7 +33,7 @@ class FilesController
   def destroy_file(file)
     searched_file = @files_repository.get(file)
     if @files_repository.delete(searched_file)
-      @file_view.delete_file
+      @file_view.delete_file(file)
     else
       @file_view.not_found(file)
     end
