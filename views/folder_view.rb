@@ -1,6 +1,6 @@
 class FolderView
   def folder_helper
-    puts 'File commands:'
+    puts 'Folder commands:'
     puts "1. 'create_folder folder_name' "
     puts "2. 'cd folder_name'"
     puts "3. 'cd ..'"
