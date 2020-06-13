@@ -16,10 +16,18 @@ class FolderView
   end
 
   def open_folder(folder)
-    puts "You've entered in '#{folder}'. Use 'cd -h' for navigation commands."
+    puts "You've entered in '#{folder}'."
   end
 
   def close_folder(folder)
-    puts "You've closed '#{folder}', back to main folder."
+    puts "You've closed '#{folder}'."
+  end
+
+  def whereami(folders)
+    puts "main/#{folders.join('/')}"
+  end
+
+  def already_exists(folder)
+    puts "#{folder} already exists."
   end
 end
