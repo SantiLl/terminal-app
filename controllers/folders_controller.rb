@@ -8,8 +8,12 @@ class FoldersController
   end
 
   def create_folder(name)
-    new_folder = Folder.new(name: name)
-    @folders_repository.post(new_folder)
+    if !@folders_repository.get(name)
+      new_folder = Folder.new(name: name)
+      @folders_repository.post(new_folder)
+    else
+      @folder_view.already_exists(name)
+    end
   end
 
   def destroy_folder(folder)
@@ -32,13 +36,8 @@ class FoldersController
     end
   end
 
-  def running?(folder)
-    searched_folder = @folders_repository.get(folder)
-    return searched_folder.open
-  end
-
   def close_folder(folder)
-    searched_folder = @folders_repository.get(folder)
+    searched_folder = check_folder(folder)
     searched_folder.open = false
     @folder_view.close_folder(folder)
   end
@@ -49,6 +48,11 @@ class FoldersController
       return searched_folder
     else
       @folder_view.not_found(folder)
+      return false
     end
+  end
+
+  def check_location(folders)
+    @folder_view.whereami(folders)
   end
 end
