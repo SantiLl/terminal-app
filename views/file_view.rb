@@ -1,6 +1,6 @@
 class FileView
   def display_file(file)
-    puts "File: ( name: #{file.name} | content: #{file.content} )"
+    puts "File: ( name: #{file.name} | content: #{file.content} | folder: #{file.folder} )"
   end
 
   def file_helper
@@ -21,5 +21,9 @@ class FileView
 
   def metadata_file(file)
     puts file
+  end
+
+  def already_exists(file)
+    puts "#{file} already exists."
   end
 end
