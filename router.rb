@@ -3,6 +3,7 @@ class Router
     @files_controller = files_controller
     @folders_controller = folders_controller
     @running = true
+    @opened_folders = []
   end
 
   def greeting
@@ -43,7 +44,7 @@ class Router
       @files_controller.create_file(file_command[1], joined_content)
     elsif file_command[0].include?('destroy_file') && file_command.size == 2
       @files_controller.destroy_file(file_command[1])
-    elsif file_command[0].include?('file') && file_command.size == 2
+    elsif file_command[0] == 'file' && file_command[1] == '-h'
       @files_controller.display_file_helper
     else
       puts "Invalid operation '#{answer}', use file -h to check all the file commands"
@@ -56,10 +57,12 @@ class Router
       @folders_controller.create_folder(folder_command[1])
     elsif folder_command[0].include?('destroy_folder') && folder_command.size == 2
       @folders_controller.destroy_folder(folder_command[1])
-    elsif folder_command[0].include?('folder') && folder_command.size == 2
+    elsif folder_command[0] == 'folder' && folder_command[1] == '-h'
       @folders_controller.display_folder_helper
     elsif folder_command[0].include?('cd') && folder_command.size == 2
       redirect_folder(folder_command[1])
+    elsif folder_command[0] == 'ls' && folder_command.size == 1
+      @folders_controller.check_location(@opened_folders)
     else
       puts "Invalid operation '#{answer}', use folder -h to check all the file commands"
     end
@@ -79,27 +82,24 @@ class Router
   end
 
   def redirect_folder(folder)
-    if folder.include?('..')
+    if folder.include?('..') && @opened_folders.size.zero?
       puts 'You are already in main folder!'
+    elsif folder.include?('..') && @opened_folders.size.positive?
+      @folders_controller.close_folder(@opened_folders[-1])
+      @opened_folders.pop
+      puts "Closed folder in : #{@opened_folders}"
     else
-      @folders_controller.open_folder(folder)
-      run_in_folder(folder)
+      run_in_folder(folder) if @folders_controller.check_folder(folder)
     end
   end
 
   def run_in_folder(folder)
-    while @folders_controller.running?(folder)
-      print '> '
-      user_answer = gets.chomp
-      if user_answer == 'ls'
-        # displayear todos los archivos que pertenecen a esa carpeta
-      elsif user_answer == 'cd ..'
-        @folders_controller.close_folder(folder)
-      elsif user_answer == 'whereami'
-        # mostrar ruta
-      else
-        puts "Invalid operation '#{answer}', use folder -h to check all the file commands"
-      end
+    if !@opened_folders.include?(folder)
+      @folders_controller.open_folder(folder)
+      @opened_folders << folder
+      puts "Added folder in : #{@opened_folders}"
+    else
+      puts 'Folder already opened!'
     end
   end
 end
