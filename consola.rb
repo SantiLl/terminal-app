@@ -13,7 +13,7 @@ files_controller = FilesController.new(files_repository)
 
 # FOLDERS
 folders_repository = FoldersRepository.new
-folders_controller = FoldersController.new(folders_repository)
+folders_controller = FoldersController.new(folders_repository, files_repository)
 router = Router.new(files_controller, folders_controller)
 
 # Start the app

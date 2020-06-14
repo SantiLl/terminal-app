@@ -2,25 +2,26 @@ require_relative '../models/folder'
 require_relative '../views/folder_view'
 
 class FoldersController
-  def initialize(files_repository)
-    @folders_repository = files_repository
+  def initialize(folders_repository, files_repository)
+    @folders_repository = folders_repository
+    @files_repository = files_repository
     @folder_view = FolderView.new
   end
 
-  def create_folder(name)
-    if !@folders_repository.get(name)
-      new_folder = Folder.new(name: name)
+  def create_folder(name, folder = 'main')
+    if !@folders_repository.get(name, folder)
+      new_folder = Folder.new(name: name, folder: folder)
       @folders_repository.post(new_folder)
     else
       @folder_view.already_exists(name)
     end
   end
 
-  def destroy_folder(folder)
-    searched_folder = check_folder(folder)
+  def destroy_folder(name, folder = 'main')
+    searched_folder = check_folder(name, folder)
     if searched_folder
       @folders_repository.delete(searched_folder)
-      @folder_view.delete_folder(folder)
+      @folder_view.delete_folder(name)
     end
   end
 
@@ -42,17 +43,23 @@ class FoldersController
     @folder_view.close_folder(folder)
   end
 
-  def check_folder(folder)
-    searched_folder = @folders_repository.get(folder)
+  def check_folder(name, folder = 'main')
+    searched_folder = @folders_repository.get(name, folder)
     if searched_folder
       return searched_folder
     else
-      @folder_view.not_found(folder)
+      @folder_view.not_found(name)
       return false
     end
   end
 
   def check_location(folders)
     @folder_view.whereami(folders)
+  end
+
+  def display_all(folder)
+    folder = 'main' if folder.nil?
+    searched_files = @folders_repository.all(folder).concat(@files_repository.all(folder))
+    @folder_view.display_all(searched_files, folder)
   end
 end

@@ -54,14 +54,16 @@ class Router
   def folder_actions(answer)
     folder_command = answer.split(' ')
     if folder_command[0].include?('create_folder') && folder_command.size == 2
-      @folders_controller.create_folder(folder_command[1])
+      @folders_controller.create_folder(folder_command[1], @opened_folders[-1])
     elsif folder_command[0].include?('destroy_folder') && folder_command.size == 2
-      @folders_controller.destroy_folder(folder_command[1])
+      @folders_controller.destroy_folder(folder_command[1], @opened_folders[-1])
     elsif folder_command[0] == 'folder' && folder_command[1] == '-h'
       @folders_controller.display_folder_helper
     elsif folder_command[0].include?('cd') && folder_command.size == 2
       redirect_folder(folder_command[1])
     elsif folder_command[0] == 'ls' && folder_command.size == 1
+      @folders_controller.display_all(@opened_folders[-1])
+    elsif folder_command[0] == 'whereami' && folder_command.size == 1
       @folders_controller.check_location(@opened_folders)
     else
       puts "Invalid operation '#{answer}', use folder -h to check all the file commands"
@@ -89,7 +91,7 @@ class Router
       @opened_folders.pop
       puts "Closed folder in : #{@opened_folders}"
     else
-      run_in_folder(folder) if @folders_controller.check_folder(folder)
+      run_in_folder(folder) if @folders_controller.check_folder(folder, @opened_folders[-1])
     end
   end
 

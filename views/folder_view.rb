@@ -30,4 +30,11 @@ class FolderView
   def already_exists(folder)
     puts "#{folder} already exists."
   end
+
+  def display_all(files, folder)
+    puts "All files in folder '#{folder}'"
+    files.each_with_index do |file, index|
+      puts "#{index + 1}. #{file.name}"
+    end
+  end
 end
