@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require_relative '../../models/folder'
+require_relative '../models/folder'
 
 class TestFolder < Minitest::Test
   describe 'Folder' do

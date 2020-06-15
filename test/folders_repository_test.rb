@@ -1,6 +1,6 @@
 require 'minitest/autorun'
-require_relative '../../repositories/folders_repository'
-require_relative '../../models/folder'
+require_relative '../repositories/folders_repository'
+require_relative '../models/folder'
 
 class TestFoldersRepository < Minitest::Test
   describe 'FoldersRepository' do

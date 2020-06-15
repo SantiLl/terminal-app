@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require_relative '../../models/file'
+require_relative '../models/file'
 
 class TestFile < Minitest::Test
   describe 'File' do
