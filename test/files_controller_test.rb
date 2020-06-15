@@ -16,8 +16,8 @@ class TestFilesController < Minitest::Test
       files_repository = FilesRepository.new
       files_controller = FilesController.new(files_repository)
 
-      files_controller.create_file('challenge', 'shipnow challenge')
-      searched_file = files_repository.get('challenge', 'main')
+      files_controller.create_file('challenge', 'shipnow challenge', '/main')
+      searched_file = files_repository.get('challenge', '/main')
 
       searched_file.name.must_equal 'challenge'
       searched_file.content.must_equal 'shipnow challenge'
@@ -29,10 +29,10 @@ class TestFilesController < Minitest::Test
       files_repository = FilesRepository.new
       files_controller = FilesController.new(files_repository)
 
-      files_controller.create_file('challenge', 'shipnow challenge')
-      files_controller.destroy_file('challenge')
-      files_collection = files_repository.all('main')
-      searched_file = files_repository.get('challenge', 'main')
+      files_controller.create_file('challenge', 'shipnow challenge', '/main')
+      files_controller.destroy_file('challenge', '/main')
+      files_collection = files_repository.all('/main')
+      searched_file = files_repository.get('challenge', '/main')
 
       searched_file.must_equal nil
       files_collection.size.must_equal 0
