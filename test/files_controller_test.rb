@@ -12,7 +12,7 @@ class TestFilesController < Minitest::Test
   end
 
   describe '#create_file' do
-    it 'should ask the user for a name, content, and folder' do
+    it 'should ask the user for a name, content, and directory' do
       files_repository = FilesRepository.new
       files_controller = FilesController.new(files_repository)
 

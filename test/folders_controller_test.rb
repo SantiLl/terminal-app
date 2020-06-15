@@ -14,16 +14,16 @@ class TestFoldersController < Minitest::Test
   end
 
   describe '#create_folder' do
-    it 'should ask the user for a name, content, and folder' do
+    it 'should ask the user for a name, content, and directory' do
       files_repository = FilesRepository.new
       folders_repository = FoldersRepository.new
       folders_controller = FoldersController.new(folders_repository, files_repository)
 
-      folders_controller.create_folder('challenge_directory')
-      searched_folder = folders_repository.get('challenge_directory', 'main')
+      folders_controller.create_folder('challenge_directory', '/main')
+      searched_folder = folders_repository.get('challenge_directory', '/main')
 
       searched_folder.name.must_equal 'challenge_directory'
-      searched_folder.folder.must_equal 'main'
+      searched_folder.directory.must_equal '/main'
     end
   end
 
@@ -49,9 +49,9 @@ class TestFoldersController < Minitest::Test
       folders_repository = FoldersRepository.new
       folders_controller = FoldersController.new(folders_repository, files_repository)
 
-      folders_controller.create_folder('challenge_directory')
-      folders_controller.open_folder('challenge_directory')
-      searched_folder = folders_repository.get('challenge_directory', 'main')
+      folders_controller.create_folder('challenge_directory', '/main')
+      folders_controller.open_folder('challenge_directory', '/main')
+      searched_folder = folders_repository.get('challenge_directory', '/main')
 
       searched_folder.open.must_equal true
     end
@@ -63,10 +63,10 @@ class TestFoldersController < Minitest::Test
       folders_repository = FoldersRepository.new
       folders_controller = FoldersController.new(folders_repository, files_repository)
 
-      folders_controller.create_folder('challenge_directory')
-      folders_controller.open_folder('challenge_directory')
-      folders_controller.close_folder('challenge_directory')
-      searched_folder = folders_repository.get('challenge_directory', 'main')
+      folders_controller.create_folder('challenge_directory', '/main')
+      folders_controller.open_folder('challenge_directory', '/main')
+      folders_controller.close_folder('challenge_directory', '/main')
+      searched_folder = folders_repository.get('challenge_directory', '/main')
 
       searched_folder.open.must_equal false
     end
@@ -78,9 +78,9 @@ class TestFoldersController < Minitest::Test
       folders_repository = FoldersRepository.new
       folders_controller = FoldersController.new(folders_repository, files_repository)
 
-      folders_controller.create_folder('challenge_directory')
-      controller_search = folders_controller.check_folder('challenge_directory')
-      repo_search = folders_repository.get('challenge_directory', 'main')
+      folders_controller.create_folder('challenge_directory', '/main')
+      controller_search = folders_controller.check_folder('challenge_directory', '/main')
+      repo_search = folders_repository.get('challenge_directory', '/main')
 
       controller_search.must_equal repo_search
     end
@@ -90,7 +90,7 @@ class TestFoldersController < Minitest::Test
       folders_repository = FoldersRepository.new
       folders_controller = FoldersController.new(folders_repository, files_repository)
 
-      controller_search = folders_controller.check_folder('challenge_directory')
+      controller_search = folders_controller.check_folder('challenge_directory', '/main')
 
       controller_search.must_equal false
     end
