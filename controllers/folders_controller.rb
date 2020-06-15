@@ -29,18 +29,18 @@ class FoldersController
     @folder_view.folder_helper
   end
 
-  def open_folder(folder)
-    searched_folder = check_folder(folder)
+  def open_folder(name, folder = 'main')
+    searched_folder = check_folder(name, folder)
     if searched_folder
-      @folder_view.open_folder(folder)
+      @folder_view.open_folder(name)
       return searched_folder.open = true
     end
   end
 
-  def close_folder(folder)
-    searched_folder = check_folder(folder)
+  def close_folder(name, folder = 'main')
+    searched_folder = check_folder(name, folder)
     searched_folder.open = false
-    @folder_view.close_folder(folder)
+    @folder_view.close_folder(name)
   end
 
   def check_folder(name, folder = 'main')

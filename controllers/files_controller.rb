@@ -7,7 +7,7 @@ class FilesController
     @file_view = FileView.new
   end
 
-  def create_file(name, content, folder = 'main')
+  def create_file(name, content = 'no content', folder = 'main')
     if !@files_repository.get(name, folder)
       new_file = File.new(name: name, content: content, folder: folder)
       @files_repository.post(new_file)
