@@ -28,6 +28,8 @@ class Router
       folder_actions(answer)
     elsif answer.include?('help')
       command_helper
+    elsif answer == 'exit'
+      @running = false
     else
       puts "Invalid command '#{answer}', use 'help' to check every command."
     end
@@ -78,6 +80,7 @@ class Router
   def command_helper
     puts "1. For file commands: 'file -h'"
     puts "2. For folder commands: 'folder -h'"
+    puts "3. To close the terminal 'exit'"
   end
 
   def invalid_operation(answer, object)
@@ -96,7 +99,7 @@ class Router
     if folder.include?('..') && @opened_folders.size.zero?
       puts 'You are already in main folder!'
     elsif folder.include?('..') && @opened_folders.size.positive?
-      @folders_controller.close_folder(@opened_folders[-1])
+      @folders_controller.close_folder(@opened_folders[-1], @opened_folders[-2])
       @opened_folders.pop
     else
       run_in_folder(folder) if @folders_controller.check_folder(folder, @opened_folders[-1])
@@ -105,7 +108,7 @@ class Router
 
   def run_in_folder(folder)
     if !@opened_folders.include?(folder)
-      @folders_controller.open_folder(folder)
+      @folders_controller.open_folder(folder, @opened_folders[-1])
       @opened_folders << folder
     else
       puts 'Folder already opened!'
