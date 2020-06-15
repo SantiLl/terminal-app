@@ -44,7 +44,6 @@ class FoldersController
   end
 
   def check_folder(name, folder = 'main')
-    puts "check_fodlder - name: #{name}, folder: #{folder}"
     searched_folder = @folders_repository.get(name, folder)
     if searched_folder
       return searched_folder
