@@ -8,18 +8,18 @@ class TestFile < Minitest::Test
     end
 
     it 'should be initialized with a hash of properties' do
-      properties = { name: 'exercise', content: 'testing exercise' }
+      properties = { name: 'exercise', content: 'testing exercise', directory: 'work_directory' }
       file = File.new(properties)
       file.must_be_instance_of File
     end
 
     it 'should return the name of the file' do
-      file = File.new(name: 'work')
+      file = File.new(name: 'work', directory: 'work_directory')
       file.name.must_equal 'work'
     end
 
     it 'should return the content of the file' do
-      file = File.new(name: 'work', content: 'coding challenge')
+      file = File.new(name: 'work', content: 'coding challenge', directory: 'work_directory')
       file.content.must_equal 'coding challenge'
     end
 
