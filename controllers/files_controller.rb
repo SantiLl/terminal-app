@@ -7,17 +7,17 @@ class FilesController
     @file_view = FileView.new
   end
 
-  def create_file(name, content = 'no content', folder = 'main')
-    if !@files_repository.get(name, folder)
-      new_file = File.new(name: name, content: content, folder: folder)
+  def create_file(name, content = 'no content', directory)
+    if !@files_repository.get(name, directory)
+      new_file = File.new(name: name, content: content, directory: directory)
       @files_repository.post(new_file)
     else
       @file_view.already_exists(name)
     end
   end
 
-  def show_file(file, folder = 'main')
-    searched_file = @files_repository.get(file, folder)
+  def show_file(file, directory)
+    searched_file = @files_repository.get(file, directory)
     if searched_file
       @file_view.display_file(searched_file)
     else
@@ -25,8 +25,8 @@ class FilesController
     end
   end
 
-  def metadata_file(file, folder = 'main')
-    searched_file = @files_repository.get(file, folder)
+  def metadata_file(file, directory)
+    searched_file = @files_repository.get(file, directory)
     if searched_file
       @file_view.metadata_file(searched_file)
     else
@@ -34,8 +34,8 @@ class FilesController
     end
   end
 
-  def destroy_file(file, folder = 'main')
-    searched_file = @files_repository.get(file, folder)
+  def destroy_file(file, directory)
+    searched_file = @files_repository.get(file, directory)
     if @files_repository.delete(searched_file)
       @file_view.delete_file(file)
     else

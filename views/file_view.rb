@@ -1,6 +1,6 @@
 class FileView
   def display_file(file)
-    puts "File: ( name: #{file.name} | content: #{file.content} | folder: #{file.folder} )"
+    puts "File: ( name: #{file.name} | content: #{file.content} | directory: #{file.directory} )"
   end
 
   def file_helper

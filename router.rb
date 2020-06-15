@@ -3,7 +3,7 @@ class Router
     @files_controller = files_controller
     @folders_controller = folders_controller
     @running = true
-    @opened_folders = []
+    @opened_folders = ['/main']
   end
 
   def greeting
