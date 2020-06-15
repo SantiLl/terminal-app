@@ -8,17 +8,17 @@ class FoldersController
     @folder_view = FolderView.new
   end
 
-  def create_folder(name, folder = 'main')
-    if !@folders_repository.get(name, folder)
-      new_folder = Folder.new(name: name, folder: folder)
+  def create_folder(name, directory)
+    if !@folders_repository.get(name, directory)
+      new_folder = Folder.new(name: name, directory: directory)
       @folders_repository.post(new_folder)
     else
       @folder_view.already_exists(name)
     end
   end
 
-  def destroy_folder(name, folder = 'main')
-    searched_folder = check_folder(name, folder)
+  def destroy_folder(name, directory)
+    searched_folder = check_folder(name, directory)
     if searched_folder
       @folders_repository.delete(searched_folder)
       @folder_view.delete_folder(name)
@@ -29,22 +29,22 @@ class FoldersController
     @folder_view.folder_helper
   end
 
-  def open_folder(name, folder = 'main')
-    searched_folder = check_folder(name, folder)
+  def open_folder(name, directory)
+    searched_folder = check_folder(name, directory)
     if searched_folder
       @folder_view.open_folder(name)
       return searched_folder.open = true
     end
   end
 
-  def close_folder(name, folder = 'main')
-    searched_folder = check_folder(name, folder)
+  def close_folder(name, directory)
+    searched_folder = check_folder(name, directory)
     searched_folder.open = false
     @folder_view.close_folder(name)
   end
 
-  def check_folder(name, folder = 'main')
-    searched_folder = @folders_repository.get(name, folder)
+  def check_folder(name, directory)
+    searched_folder = @folders_repository.get(name, directory)
     if searched_folder
       return searched_folder
     else
@@ -53,13 +53,12 @@ class FoldersController
     end
   end
 
-  def check_location(folders)
-    @folder_view.whereami(folders)
+  def check_location(directory)
+    @folder_view.whereami(directory)
   end
 
-  def display_all(folder)
-    folder = 'main' if folder.nil?
-    searched_files = @folders_repository.all(folder).concat(@files_repository.all(folder))
-    @folder_view.display_all(searched_files, folder)
+  def display_all(directory)
+    searched_files = @folders_repository.all(directory).concat(@files_repository.all(directory))
+    @folder_view.display_all(searched_files, directory)
   end
 end
