@@ -11,6 +11,10 @@ class FolderView
     puts "Folder '#{folder}' deleted successfully!"
   end
 
+  def cant_delete(folder)
+    puts "can't destroy_folder: #{folder}: Directory not empty"
+  end
+
   def not_found(folder)
     puts "#{folder}: No such directory."
   end

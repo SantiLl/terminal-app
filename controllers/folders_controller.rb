@@ -18,10 +18,16 @@ class FoldersController
   end
 
   def destroy_folder(name, directory)
-    searched_folder = check_folder(name, directory)
-    if searched_folder
-      @folders_repository.delete(searched_folder)
-      @folder_view.delete_folder(name)
+    folder_directory = "#{directory}/#{name}"
+    searched_files = @folders_repository.all(folder_directory).concat(@files_repository.all(folder_directory))
+    if searched_files.size.positive?
+      @folder_view.cant_delete(name)
+    else
+      searched_folder = check_folder(name, directory)
+      if searched_folder
+        @folders_repository.delete(searched_folder)
+        @folder_view.delete_folder(name)
+      end
     end
   end
 
