@@ -9,6 +9,12 @@ To initialize project:
 ruby consola.rb
 ```
 
+To test the app (made with minitest spec):
+
+```ruby
+ruby test.rb
+```
+
 ### File actions
 
 ```ruby
