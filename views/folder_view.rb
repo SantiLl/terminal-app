@@ -11,6 +11,10 @@ class FolderView
     puts "Folder '#{folder}' deleted successfully!"
   end
 
+  def cant_delete(folder)
+    puts "can't destroy_folder: #{folder}: Directory not empty"
+  end
+
   def not_found(folder)
     puts "#{folder}: No such directory."
   end
@@ -23,16 +27,16 @@ class FolderView
     puts "You've closed '#{folder}'."
   end
 
-  def whereami(folders)
-    puts "main/#{folders.join('/')}"
+  def whereami(directory)
+    puts directory
   end
 
   def already_exists(folder)
     puts "#{folder} already exists."
   end
 
-  def display_all(files, folder)
-    puts "All files in folder '#{folder}'"
+  def display_all(files, directory)
+    puts "All files in directory '#{directory}'"
     files.each_with_index do |file, index|
       puts "#{index + 1}. #{file.name}"
     end

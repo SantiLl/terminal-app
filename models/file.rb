@@ -1,8 +1,8 @@
 class File
-  attr_reader :content, :name, :folder
+  attr_reader :content, :name, :directory
   def initialize(attributes = {})
     @name = attributes[:name]
     @content = attributes[:content] || 'no content'
-    @folder = attributes[:folder] || 'main'
+    @directory = attributes[:directory]
   end
 end

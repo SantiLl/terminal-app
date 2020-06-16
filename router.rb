@@ -3,7 +3,7 @@ class Router
     @files_controller = files_controller
     @folders_controller = folders_controller
     @running = true
-    @opened_folders = []
+    @opened_folders = ['/main']
   end
 
   def greeting
@@ -68,7 +68,7 @@ class Router
     when ['ls', 1]
       @folders_controller.display_all(@opened_folders[-1])
     when ['whereami', 1]
-      @folders_controller.check_location(@opened_folders)
+      @folders_controller.check_location(@opened_folders[-1])
     when ['folder', 2]
       @folders_controller.display_folder_helper if folder_command[1] == '-h'
       invalid_operation(answer, 'folder') unless folder_command[1] == '-h'
@@ -96,22 +96,20 @@ class Router
   end
 
   def redirect_folder(folder)
-    if folder.include?('..') && @opened_folders.size.zero?
+    if folder.include?('..') && @opened_folders.size == 1
       puts 'You are already in main folder!'
-    elsif folder.include?('..') && @opened_folders.size.positive?
-      @folders_controller.close_folder(@opened_folders[-1], @opened_folders[-2])
+    elsif folder.include?('..') && @opened_folders.size > 1
+      folder_name = @opened_folders.last.split('/')[-1]
+      @folders_controller.close_folder(folder_name, @opened_folders[-2])
       @opened_folders.pop
     else
-      run_in_folder(folder) if @folders_controller.check_folder(folder, @opened_folders[-1])
+      open_folder(folder) if @folders_controller.check_folder(folder, @opened_folders[-1])
     end
   end
 
-  def run_in_folder(folder)
-    if !@opened_folders.include?(folder)
-      @folders_controller.open_folder(folder, @opened_folders[-1])
-      @opened_folders << folder
-    else
-      puts 'Folder already opened!'
-    end
+  def open_folder(folder)
+    new_directory = "#{@opened_folders[-1]}/#{folder}"
+    @folders_controller.open_folder(folder, @opened_folders[-1])
+    @opened_folders << new_directory
   end
 end

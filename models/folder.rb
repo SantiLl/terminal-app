@@ -1,9 +1,9 @@
 class Folder
-  attr_reader :name, :folder
+  attr_reader :name, :directory
   attr_accessor :open
   def initialize(attributes = {})
     @name = attributes[:name]
     @open = false
-    @folder = attributes[:folder] || 'main'
+    @directory = attributes[:directory]
   end
 end
